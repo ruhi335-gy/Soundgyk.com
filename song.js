@@ -3,8 +3,8 @@ const songs = [
     id: 1,
     title: "Brack my rull",
     artist: "SOUNDGYK",
-    img: "3.png",
-    src: "3.mp3"
+    img: "1.png",
+    src: "1.mp3"
   },
   {
     id: 2,
