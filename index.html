@@ -227,82 +227,168 @@ const playTitle = document.getElementById("playTitle");
 const playArtist = document.getElementById("playArtist");
 const playPause = document.getElementById("playPause");
 const progFill = document.getElementById("progFill");
-let idxPlaying = 0, isPlaying = false;
+
+let idxPlaying = 0;
+let isPlaying = false;
+
 const mini = document.getElementById("headerMiniBar");
 
-// MINI PLAYER FUNCTIONS
+// MINI SHOW
 function showMini(){
-  const s = songs[idxPlaying];
-  document.getElementById("hmImg").src = s.img;
-  document.getElementById("hmTitle").textContent = s.title;
-  document.getElementById("hmArtist").textContent = s.artist;
-  mini.style.display = "flex";
-}
-function hideMini(){ mini.style.display = "none"; }
-
-// OPEN PLAYER
-function openPlayer(i){
-  idxPlaying = i;
-  const s = songs[i];
-  playImg.src = s.img;
-  playTitle.textContent = s.title;
-  playArtist.textContent = s.artist;
-  audio.src = s.src;
-  audio.currentTime = 0;
-  overlay.style.display = "block";
-  playAudio();
-}
-
-// CLICK SONG FROM GRID
-function playSongFromGrid(i){
-  if(mini.style.display === "flex"){
-    idxPlaying = i;
-    const s = songs[i];
+    const s = songs[idxPlaying];
     document.getElementById("hmImg").src = s.img;
     document.getElementById("hmTitle").textContent = s.title;
     document.getElementById("hmArtist").textContent = s.artist;
+    mini.style.display = "flex";
+}
+function hideMini(){ mini.style.display = "none"; }
+
+// OPEN PLAYER (NO AUTOPLAY)
+function showSongInfo(i){
+    idxPlaying = i;
+    const s = songs[i];
+
+    overlay.style.display = "block";
+
+    playImg.src = s.img;
+    playTitle.textContent = s.title;
+    playArtist.textContent = s.artist;
+
     audio.src = s.src;
     audio.currentTime = 0;
-    playAudio();
-  } else {
-    openPlayer(i);
-  }
+
+    playPause.innerHTML = '<i class="fa fa-play"></i>';
+    isPlaying = false;
+}
+
+// CLICK SONG FROM GRID → PLAY
+function playSongFromGrid(i){
+  idxPlaying = i;
+  const s = songs[i];
+
+  overlay.style.display = "block";
+
+  playImg.src = s.img;
+  playTitle.textContent = s.title;
+  playArtist.textContent = s.artist;
+
+  audio.src = s.src;
+  audio.currentTime = 0;
+
+  playAudio();
 }
 
 // AUDIO CONTROLS
 function playAudio(){
-  audio.play(); isPlaying = true;
+  audio.play();
+  isPlaying = true;
   playPause.innerHTML = '<i class="fa fa-pause"></i>';
   document.getElementById("hmPlay").innerHTML = '<i class="fa fa-pause"></i>';
 }
 function pauseAudio(){
-  audio.pause(); isPlaying = false;
+  audio.pause();
+  isPlaying = false;
   playPause.innerHTML = '<i class="fa fa-play"></i>';
   document.getElementById("hmPlay").innerHTML = '<i class="fa fa-play"></i>';
 }
 
 playPause.onclick = () => isPlaying ? pauseAudio() : playAudio();
-document.getElementById("prevBtn").onclick = () => {idxPlaying = (idxPlaying-1+songs.length)%songs.length; openPlayer(idxPlaying);}
-document.getElementById("nextBtn").onclick = () => {idxPlaying = (idxPlaying+1)%songs.length; openPlayer(idxPlaying);}
 
-audio.ontimeupdate = () => {
-  if(audio.duration)
-    progFill.style.width = ((audio.currentTime/audio.duration)*100)+"%";
+document.getElementById("prevBtn").onclick = () => {
+    idxPlaying = (idxPlaying - 1 + songs.length) % songs.length;
+    showSongInfo(idxPlaying);
+};
+document.getElementById("nextBtn").onclick = () => {
+    idxPlaying = (idxPlaying + 1) % songs.length;
+    showSongInfo(idxPlaying);
 };
 
-// OVERLAY BUTTONS
-document.getElementById("closeBtn").onclick = () => {overlay.style.display="none"; pauseAudio();}
-document.getElementById("minBtn").onclick = () => {overlay.style.display="none"; showMini();}
+// TIME PROGRESS
+audio.ontimeupdate = () => {
+  if(audio.duration){
+    progFill.style.width = ((audio.currentTime/audio.duration)*100)+"%";
+  }
+};
+
+// CLOSE / MINIMIZE
+document.getElementById("closeBtn").onclick = () => {
+    overlay.style.display = "none";
+    pauseAudio();
+};
+document.getElementById("minBtn").onclick = () => {
+    overlay.style.display = "none";
+    showMini();
+};
 
 // MINI PLAYER BUTTONS
 document.getElementById("hmPlay").onclick = () => isPlaying ? pauseAudio() : playAudio();
-document.getElementById("hmClose").onclick = () => {pauseAudio(); hideMini();}
-document.getElementById("hmPrev").onclick = () => {idxPlaying = (idxPlaying-1+songs.length)%songs.length; playSongFromGrid(idxPlaying);}
-document.getElementById("hmNext").onclick = () => {idxPlaying = (idxPlaying+1)%songs.length; playSongFromGrid(idxPlaying);}
+document.getElementById("hmClose").onclick = () => { pauseAudio(); hideMini(); };
+document.getElementById("hmPrev").onclick = () => {
+    idxPlaying = (idxPlaying - 1 + songs.length) % songs.length;
+    showSongInfo(idxPlaying);
+};
+document.getElementById("hmNext").onclick = () => {
+    idxPlaying = (idxPlaying + 1) % songs.length;
+    showSongInfo(idxPlaying);
+};
 
-// =========================
-// SHARE BUTTON (FINAL FIX)
-// =========================
+// ⭐ MINI PLAYER CLICK = OPEN FULL PLAYER (UNMINIMIZE)
+mini.addEventListener("click", () => {
+    const s = songs[idxPlaying];
+
+    overlay.style.display = "block";
+
+    playImg.src = s.img;
+    playTitle.textContent = s.title;
+    playArtist.textContent = s.artist;
+
+    audio.src = s.src;
+    audio.currentTime = 0;
+
+    playPause.innerHTML = '<i class="fa fa-play"></i>';
+    isPlaying = false;
+});
+
+// ⭐ SHARE BUTTON (Song ID + No Autoplay)
+document.getElementById("shareBtn").addEventListener("click", async () => {
+    const s = songs[idxPlaying];
+    const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}`;
+
+    if (navigator.share) {
+        await navigator.share({
+            title: s.title,
+            text: "Listen to this song!",
+            url: shareURL
+        });
+    } else {
+        navigator.clipboard.writeText(shareURL);
+        alert("Link copied:\n" + shareURL);
+    }
+});
+
+// ⭐ DOWNLOAD BUTTON (Custom Name + GitHub Support)
+document.getElementById("downloadBtn").addEventListener("click", async () => {
+    const s = songs[idxPlaying];
+    const finalName = `soundgyx - ${s.title}.mp3`;
+
+    try {
+        const response = await fetch(s.src, { mode: "cors" });
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = finalName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    } catch (err) {
+        alert("Download error: " + err);
+    }
+});
+
+// ⭐ URL SONG SHOW ONLY (NO AUTOPLAY)
 function checkURLSong() {
     const params = new URLSearchParams(window.location.search);
     const songId = params.get("song");
@@ -312,104 +398,45 @@ function checkURLSong() {
     const findSong = songs.find(x => x.id == songId);
     if (findSong) {
         const index = songs.indexOf(findSong);
-
-        // Auto-play OFF
-        // Player open karega par play nahi karega
-        showSongInfo(index);
+        showSongInfo(index); // Only show, no play
     }
 }
 checkURLSong();
 
-function showSongInfo(i) {
-    idxPlaying = i;
-    const s = songs[i];
+// SEARCH SYSTEM
+document.getElementById("searchInput").oninput = e => {
+  const q = e.target.value.toLowerCase();
+  renderSongs(songs.filter(s => (s.title+" "+s.artist).toLowerCase().includes(q)));
+};
+document.getElementById("clearSearch").onclick = () => {
+  document.getElementById("searchInput").value="";
+  renderSongs(songs);
+};
 
-    overlay.style.display = "block";  
-
-    // Song info show
-    playImg.src = s.img;
-    playTitle.textContent = s.title;
-    playArtist.textContent = s.artist;
-
-    // Song load but DON'T play
-    audio.src = s.src;
-    audio.currentTime = 0;
-
-    // Play button normal rahega
-    playPause.innerHTML = '<i class="fa fa-play"></i>';
-
-    isPlaying = false;
-}
-// =========================
-// DOWNLOAD BUTTON (FINAL FIX)
-// =========================
-document.getElementById("downloadBtn").addEventListener("click", async () => {
-    const s = songs[idxPlaying];
-
-    const finalName = `soundgyx - ${s.title}.mp3`;  // ✔ CUSTOM FILENAME
-
-    try {
-        const response = await fetch(s.src, { mode: "cors" });
-        const blob = await response.blob();
-
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-
-        a.href = url;
-        a.download = finalName;   // ✔ Always this name
-        document.body.appendChild(a);
-        a.click();
-
-        a.remove();
-        URL.revokeObjectURL(url);
-
-    } catch (err) {
-        alert("Download error: " + err);
-    }
-});
-// =========================
-// URL AUTOPLAY SYSTEM
-// =========================
-
-// =========================
-// HAMBURGER MENU FIX
-// =========================
+// MENU
 const hamb = document.getElementById("hamb");
 const menu = document.getElementById("menu");
 let menuTimeout;
 
 hamb.onclick = (e) => {
-  e.stopPropagation();
-  if(menu.style.display === "flex"){
-    closeMenu();
-  } else {
-    menu.style.display = "flex";
-    clearTimeout(menuTimeout);
-    menuTimeout = setTimeout(closeMenu, 5000);
-  }
+    e.stopPropagation();
+    if(menu.style.display === "flex"){
+        closeMenu();
+    } else {
+        menu.style.display = "flex";
+        clearTimeout(menuTimeout);
+        menuTimeout = setTimeout(closeMenu, 5000);
+    }
 };
-
 function closeMenu(){
-  menu.style.display = "none";
-  clearTimeout(menuTimeout);
+    menu.style.display = "none";
+    clearTimeout(menuTimeout);
 }
-
 document.addEventListener("click", (e) => {
-  if(menu.style.display === "flex" && !menu.contains(e.target) && e.target !== hamb){
-    closeMenu();
-  }
+    if(menu.style.display === "flex" && !menu.contains(e.target) && e.target !== hamb){
+        closeMenu();
+    }
 });
-
-// SEARCH
-document.getElementById("searchInput").oninput = e => {
-  const q = e.target.value.toLowerCase();
-  renderSongs(songs.filter(s => (s.title+" "+s.artist).toLowerCase().includes(q)));
-};
-
-document.getElementById("clearSearch").onclick = () => {
-  document.getElementById("searchInput").value="";
-  renderSongs(songs);
-};
 </script>
 
 </body>
