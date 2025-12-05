@@ -350,9 +350,18 @@ mini.addEventListener("click", () => {
 });
 
 // ⭐ SHARE BUTTON (Song ID + No Autoplay)
+
 document.getElementById("shareBtn").addEventListener("click", async () => {
     const s = songs[idxPlaying];
-    const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}`;
+
+    if (!s.id) {
+        alert("Error: Song ID missing in song.js");
+        return;
+    }
+
+    const encodedTitle = encodeURIComponent(s.title);
+
+    const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}&title=${encodedTitle}`;
 
     if (navigator.share) {
         await navigator.share({
@@ -365,7 +374,7 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
         alert("Link copied:\n" + shareURL);
     }
 });
-
+  
 // ⭐ DOWNLOAD BUTTON (Custom Name + GitHub Support)
 document.getElementById("downloadBtn").addEventListener("click", async () => {
     const s = songs[idxPlaying];
