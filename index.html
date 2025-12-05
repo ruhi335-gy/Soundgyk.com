@@ -285,34 +285,24 @@ document.getElementById("hmNext").onclick = () => {idxPlaying = (idxPlaying+1)%s
 document.getElementById("shareBtn").onclick = async () => {
   const s = songs[idxPlaying];
 
-  const shareURL = https//soundgyk-com.vercel.app/?song=${s.id};
-
-  if (navigator.share) {
+  if(navigator.share){
     await navigator.share({
       title: s.title,
-      text: "Listen to this song on SoundGYK 🎵",
-      url: shareURL
+      text: "Listen this song 🎵",
+      url: s.src
     });
   } else {
-    navigator.clipboard.writeText(shareURL);
-    alert("Share link copied:\n" + shareURL);
+    alert("Share link copied:\n" + s.src);
   }
 };
 
 // MINI SHARE FIX
 document.getElementById("hmShare")?.addEventListener("click", async () => {
   const s = songs[idxPlaying];
-  const shareURL = https//soundgyk-com.vercel.app/?song=${s.id};
-
-  if (navigator.share) {
-    await navigator.share({
-      title: s.title,
-      text: "Listen on SoundGYK 🎧",
-      url: shareURL
-    });
+  if(navigator.share){
+    await navigator.share({ title: s.title, text: "", url: s.src });
   } else {
-    navigator.clipboard.writeText(shareURL);
-    alert("Share link copied:\n" + shareURL);
+    alert("Share link: " + s.src);
   }
 });
 
