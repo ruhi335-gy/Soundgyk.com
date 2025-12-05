@@ -1,0 +1,324 @@
+
+<!doctype html>
+
+<html lang="hi">  
+<head>  
+<meta charset="utf-8" />  
+<meta name="viewport" content="width=device-width,initial-scale=1" />  
+<title>Music Studio</title>  
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>  <style>  
+:root{  
+  --bg:#0a0f1e;   
+  --card:#111827;   
+  --accent:#8b5cf6;   
+  --muted:#9ca3af;   
+  --glass: rgba(255,255,255,0.05);  
+}  
+body{  
+  margin:0; font-family:Inter; background:var(--bg); color:white; padding-bottom:100px;  
+}  
+  
+/* HEADER */  
+header{  
+  position:sticky; top:0; z-index:50;  
+  background:rgba(15,23,36,0.95);  
+  backdrop-filter:blur(6px);  
+  padding:12px 18px; display:flex; align-items:center; gap:12px;  
+  border-bottom:1px solid rgba(255,255,255,0.05);  
+}  
+.hamb{  
+  width:42px;height:42px;  
+  border-radius:12px;  
+  background:var(--glass);  
+  display:grid;place-items:center;  
+  cursor:pointer; transition:.2s;  
+}  
+.hamb:hover{background:var(--accent);}  
+.title{font-size:22px;font-weight:700}  
+  
+/* MENU PANEL */  
+.menu-panel{  
+  position:absolute;left:16px;top:60px;background:var(--card);  
+  padding:10px;border-radius:12px;display:none;flex-direction:column;  
+  box-shadow:0 6px 15px rgba(0,0,0,0.5);  
+}  
+.menu-panel a{  
+  color:white;text-decoration:none;padding:10px;border-radius:10px;  
+  transition:.2s;  
+}  
+.menu-panel a:hover{background:var(--accent);}  
+  
+/* MINI PLAYER */  
+#headerMiniBar{  
+  position:fixed; top:60px; left:50%; transform:translateX(-50%);  
+  z-index:60;  
+  width:min(420px,95%);  
+  height:70px; padding:10px 16px;  
+  background:rgba(17,24,39,0.95);  
+  backdrop-filter:blur(12px);  
+  display:none; align-items:center; gap:12px;  
+  border-radius:16px;  
+  box-shadow:0 8px 20px rgba(0,0,0,0.5);  
+  cursor:pointer;  
+  transition:.3s;  
+}  
+#headerMiniBar:hover{background:rgba(139,92,246,0.15);}  
+#headerMiniBar img{width:50px;height:50px;border-radius:14px;object-fit:cover}  
+#headerMiniBar .mInfo{flex:1; overflow:hidden}  
+#headerMiniBar .mInfo div:first-child{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}  
+#headerMiniBar .mInfo div:last-child{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}  
+#headerMiniBar .mControls{display:flex;gap:8px}  
+#headerMiniBar .mControls .iconBtn{  
+  width:38px;height:38px;font-size:14px;  
+  background:var(--glass); border-radius:12px;  
+  display:grid;place-items:center;  
+  transition:.2s; color:white;  
+}  
+#headerMiniBar .mControls .iconBtn:hover{background:var(--accent);}  
+  
+/* SONG GRID */  
+.grid{  
+  margin-top:150px;  
+  display:grid;  
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));  
+  gap:18px;padding:20px;  
+}  
+.card{  
+  background:var(--card); padding:12px; border-radius:16px;  
+  cursor:pointer; transition:.3s; box-shadow:0 6px 15px rgba(0,0,0,0.4);  
+}  
+.card:hover{transform:translateY(-6px) scale(1.03); box-shadow:0 10px 25px rgba(139,92,246,0.4);}  
+.thumb{width:100%;aspect-ratio:1/1;border-radius:14px;object-fit:cover}  
+  
+/* PLAYER OVERLAY */  
+#playerOverlay{  
+  position:fixed;inset:0;z-index:200;display:none;  
+  backdrop-filter:blur(12px);  
+  background:rgba(0,0,0,0.9);  
+  padding:20px; text-align:center;  
+  overflow-y:auto;  
+}  
+.playerTopBtns{position:absolute;top:12px;right:12px; display:flex;gap:10px;}  
+.iconBtn{  
+  width:50px;height:50px;border-radius:16px;  
+  background:var(--glass); display:grid;place-items:center; cursor:pointer; color:white;  
+  transition:.2s; font-size:18px;  
+}  
+.iconBtn:hover{background:var(--accent);}  
+.bigImg{width:min(420px,80%);border-radius:16px;margin-top:50px}  
+.progress{  
+  width:min(720px,90%);  
+  height:10px;  
+  background:#333;  
+  border-radius:10px;  
+  margin:25px auto;  
+  overflow:hidden;  
+}  
+.progress i{height:100%; background:var(--accent); display:block; width:0%; transition:width .1s linear;}  
+  
+/* FOOTER SEARCH BAR */  
+footer{  
+  position:fixed; bottom:0; left:0; right:0;  
+  background:rgba(15,23,36,0.95); backdrop-filter:blur(6px);  
+  padding:12px 20px; display:flex; align-items:center; gap:12px;  
+  border-top:1px solid rgba(255,255,255,0.05);  
+}  
+.footerSearch{  
+  flex:1; display:flex; background:rgba(255,255,255,0.05); border-radius:16px; padding:10px; align-items:center; gap:10px;  
+}  
+.footerSearch input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:16px;}  
+.footerSearch .icon{width:40px;height:40px;background:var(--glass);display:grid;place-items:center;border-radius:12px;color:white;transition:.2s}  
+.footerSearch .icon:hover{background:var(--accent);}  
+</style>  </head>  
+<body>  <header>  
+  <div id="hamb" class="hamb"><i class="fa fa-bars"></i></div>  
+  <div class="title">Music Studio</div>  
+  <div id="menu" class="menu-panel">  
+    <a href="about.html">About</a>  
+    <a href="feedback.html">Feedback</a>  
+    <a href="social.html">Social</a>  
+  </div>  
+</header>  <!-- MINI PLAYER -->  <div id="headerMiniBar">  
+  <img id="hmImg">  
+  <div class="mInfo">  
+    <div id="hmTitle"></div>  
+    <div id="hmArtist"></div>  
+  </div>  
+  <div class="mControls">  
+    <div id="hmPrev" class="iconBtn"><i class="fa fa-backward"></i></div>  
+    <div id="hmPlay" class="iconBtn"><i class="fa fa-play"></i></div>  
+    <div id="hmNext" class="iconBtn"><i class="fa fa-forward"></i></div> 
+    <div id="hmClose" class="iconBtn"><i class="fa fa-xmark"></i></div>  
+  </div>  
+</div>  <!-- SONG GRID -->  <section class="grid" id="songsGrid"></section>  <!-- PLAYER OVERLAY -->  <div id="playerOverlay">  
+  <div class="playerTopBtns">  
+    <div id="minBtn" class="iconBtn"><i class="fa fa-window-minimize"></i></div>  
+    <div id="closeBtn" class="iconBtn"><i class="fa fa-xmark"></i></div>  
+  </div>  
+  <img id="playImg" class="bigImg">  
+  <h2 id="playTitle"></h2>  
+  <div style="color:var(--muted)" id="playArtist"></div>  
+  <div class="progress"><i id="progFill"></i></div>  
+  <div style="display:flex;justify-content:center;gap:12px;margin-top:20px; flex-wrap:wrap;">  
+    <div id="prevBtn" class="iconBtn"><i class="fa fa-backward"></i></div>  
+    <div id="playPause" class="iconBtn"><i class="fa fa-play"></i></div>  
+    <div id="nextBtn" class="iconBtn"><i class="fa fa-forward"></i></div>  
+    <div id="shareBtn" class="iconBtn"><i class="fa fa-share-alt"></i></div>  
+    <div id="downloadBtn" class="iconBtn"><i class="fa fa-download"></i></div>  
+  </div>  
+  <audio id="audio"></audio>  
+</div>  <!-- FOOTER SEARCH -->  <footer>  
+  <div class="footerSearch">  
+    <div class="icon"><i class="fa fa-magnifying-glass"></i></div>  
+    <input id="searchInput" placeholder="Search songs, artists...">  
+    <div id="clearSearch" class="icon"><i class="fa fa-xmark"></i></div>  
+  </div>  
+</footer> 
+
+<script src="song.js"></script>
+ 
+ <script>  
+
+// RENDER SONG GRID
+const grid = document.getElementById("songsGrid");
+function renderSongs(list){
+  grid.innerHTML = "";
+  list.forEach((s,i)=>{
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = `
+      <img class='thumb' src='${s.img}'>
+      <div style="margin-top:8px;font-weight:600">${s.title}</div>
+      <div style="color:var(--muted);font-size:13px">${s.artist}</div>`;
+    c.onclick = () => playSongFromGrid(i);
+    grid.appendChild(c);
+  });
+}
+renderSongs(songs);
+
+// PLAYER VARIABLES
+const overlay = document.getElementById("playerOverlay");
+const audio = document.getElementById("audio");
+const playImg = document.getElementById("playImg");
+const playTitle = document.getElementById("playTitle");
+const playArtist = document.getElementById("playArtist");
+const playPause = document.getElementById("playPause");
+const progFill = document.getElementById("progFill");
+let idxPlaying = 0, isPlaying = false;
+const mini = document.getElementById("headerMiniBar");
+
+// MINI PLAYER FUNCTIONS
+function showMini(){
+  const s = songs[idxPlaying];
+  document.getElementById("hmImg").src = s.img;
+  document.getElementById("hmTitle").textContent = s.title;
+  document.getElementById("hmArtist").textContent = s.artist;
+  mini.style.display = "flex";
+}
+function hideMini(){ mini.style.display = "none"; }
+
+// OPEN PLAYER
+function openPlayer(i){
+  idxPlaying = i;
+  const s = songs[i];
+  playImg.src = s.img;
+  playTitle.textContent = s.title;
+  playArtist.textContent = s.artist;
+  audio.src = s.src;
+  audio.currentTime = 0;
+  overlay.style.display = "block";
+  playAudio();
+}
+
+// CLICKING SONG GRID ITEM
+function playSongFromGrid(i){
+  if(mini.style.display === "flex"){ // if mini is active, update song
+    idxPlaying = i;
+    const s = songs[i];
+    document.getElementById("hmImg").src = s.img;
+    document.getElementById("hmTitle").textContent = s.title;
+    document.getElementById("hmArtist").textContent = s.artist;
+    audio.src = s.src; audio.currentTime = 0;
+    playAudio();
+  } else {
+    openPlayer(i);
+  }
+}
+
+// AUDIO CONTROLS
+function playAudio(){
+  audio.play(); isPlaying = true;
+  playPause.innerHTML = '<i class="fa fa-pause"></i>';
+  document.getElementById("hmPlay").innerHTML = '<i class="fa fa-pause"></i>';
+}
+function pauseAudio(){
+  audio.pause(); isPlaying = false;
+  playPause.innerHTML = '<i class="fa fa-play"></i>';
+  document.getElementById("hmPlay").innerHTML = '<i class="fa fa-play"></i>';
+}
+
+// PLAYER BUTTONS
+playPause.onclick = () => isPlaying ? pauseAudio() : playAudio();
+document.getElementById("prevBtn").onclick = () => {idxPlaying = (idxPlaying-1+songs.length)%songs.length; openPlayer(idxPlaying);}
+document.getElementById("nextBtn").onclick = () => {idxPlaying = (idxPlaying+1)%songs.length; openPlayer(idxPlaying);}
+audio.ontimeupdate = () => {if(audio.duration) progFill.style.width = ((audio.currentTime/audio.duration)*100)+"%";}
+
+// OVERLAY BUTTONS
+document.getElementById("closeBtn").onclick = () => {overlay.style.display="none"; pauseAudio();}
+document.getElementById("minBtn").onclick = () => {overlay.style.display="none"; showMini();}
+
+// MINI PLAYER BUTTONS
+document.getElementById("hmPlay").onclick = () => isPlaying ? pauseAudio() : playAudio();
+document.getElementById("hmClose").onclick = () => {pauseAudio(); hideMini();}
+document.getElementById("hmPrev").onclick = () => {idxPlaying = (idxPlaying-1+songs.length)%songs.length; playSongFromGrid(idxPlaying);}
+document.getElementById("hmNext").onclick = () => {idxPlaying = (idxPlaying+1)%songs.length; playSongFromGrid(idxPlaying);}
+document.getElementById("hmShare").onclick = () => alert("Share link: "+songs[idxPlaying].src);
+document.getElementById("hmDownload").onclick = () => window.open(songs[idxPlaying].src,"_blank");
+
+// SHARE/DOWNLOAD IN OVERLAY
+document.getElementById("shareBtn").onclick = () => alert("Share link: "+songs[idxPlaying].src);
+document.getElementById("downloadBtn").onclick = () => window.open(songs[idxPlaying].src,"_blank");
+
+// CLICK MINI PLAYER TO OPEN
+mini.onclick = (e) => { if(!e.target.closest('.iconBtn')) openPlayer(idxPlaying); }
+
+// SEARCH
+document.getElementById("searchInput").oninput = e => {
+  const q = e.target.value.toLowerCase();
+  renderSongs(songs.filter(s => (s.title+" "+s.artist).toLowerCase().includes(q)));
+};
+document.getElementById("clearSearch").onclick = () => {document.getElementById("searchInput").value=""; renderSongs(songs);}
+
+// MENU TOGGLE WITH AUTO CLOSE
+const hamb = document.getElementById("hamb");
+const menu = document.getElementById("menu");
+let menuTimeout;
+
+hamb.onclick = (e) => {
+  e.stopPropagation(); // prevent immediate close
+  if(menu.style.display === "flex"){
+    closeMenu();
+  } else {
+    menu.style.display = "flex";
+    clearTimeout(menuTimeout);
+    menuTimeout = setTimeout(closeMenu, 5000); // auto close after 5 sec
+  }
+};
+
+// Close menu function
+function closeMenu(){
+  menu.style.display = "none";
+  clearTimeout(menuTimeout);
+}
+
+// Close menu when clicking outside
+document.addEventListener("click", (e) => {
+  if(menu.style.display === "flex" && !menu.contains(e.target) && e.target !== hamb){
+    closeMenu();
+  }
+});
+
+</script> 
+ </body>  
+</html>
