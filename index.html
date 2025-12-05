@@ -366,7 +366,7 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
     if (navigator.share) {
         await navigator.share({
             title: s.title,
-            text: "Listen to this song!",
+            text: "",
             url: shareURL
         });
     } else {
