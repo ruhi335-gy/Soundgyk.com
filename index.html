@@ -303,21 +303,43 @@ document.getElementById("hmNext").onclick = () => {idxPlaying = (idxPlaying+1)%s
 // =========================
 // SHARE BUTTON (FINAL FIX)
 // =========================
-document.getElementById("shareBtn").addEventListener("click", async () => {
-  const s = songs[idxPlaying];
-  const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}`;
+function checkURLSong() {
+    const params = new URLSearchParams(window.location.search);
+    const songId = params.get("song");
 
-  if (navigator.share) {
-    await navigator.share({
-      title: s.title,
-      text: "Listen to this song!",
-      url: shareURL
-    });
-  } else {
-    alert("Share this link:\n" + shareURL);
-  }
-});
+    if (!songId) return;
 
+    const findSong = songs.find(x => x.id == songId);
+    if (findSong) {
+        const index = songs.indexOf(findSong);
+
+        // Auto-play OFF
+        // Player open karega par play nahi karega
+        showSongInfo(index);
+    }
+}
+checkURLSong();
+
+function showSongInfo(i) {
+    idxPlaying = i;
+    const s = songs[i];
+
+    overlay.style.display = "block";  
+
+    // Song info show
+    playImg.src = s.img;
+    playTitle.textContent = s.title;
+    playArtist.textContent = s.artist;
+
+    // Song load but DON'T play
+    audio.src = s.src;
+    audio.currentTime = 0;
+
+    // Play button normal rahega
+    playPause.innerHTML = '<i class="fa fa-play"></i>';
+
+    isPlaying = false;
+}
 // =========================
 // DOWNLOAD BUTTON (FINAL FIX)
 // =========================
@@ -348,19 +370,6 @@ document.getElementById("downloadBtn").addEventListener("click", async () => {
 // =========================
 // URL AUTOPLAY SYSTEM
 // =========================
-function checkURLSong() {
-  const params = new URLSearchParams(window.location.search);
-  const songId = params.get("song");
-
-  if (!songId) return;
-
-  const findSong = songs.find(x => x.id == songId);
-  if (findSong) {
-    const index = songs.indexOf(findSong);
-    openPlayer(index);
-  }
-}
-checkURLSong();
 
 // =========================
 // HAMBURGER MENU FIX
