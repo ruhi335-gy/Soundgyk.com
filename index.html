@@ -246,6 +246,8 @@ footer{
 <script src="song.js"></script>
 
 <script>
+
+  
 // SONG GRID RENDER
 const grid = document.getElementById("songsGrid");
 function renderSongs(list){
@@ -316,7 +318,7 @@ function showFullPlayer(){
   playArtist.textContent = s.artist;
   audio.src = s.src;
   audio.currentTime = 0;
-  audio.play();        // auto play
+  audio.play();
   isPlaying = true;
   playPause.innerHTML = '<i class="fa fa-pause"></i>';
   document.getElementById("hmPlay").innerHTML = '<i class="fa fa-pause"></i>';
@@ -354,7 +356,7 @@ document.getElementById("hmClose").onclick = e => { e.stopPropagation(); pauseAu
 mini.addEventListener("click", e => {
   if(e.target.closest(".iconBtn")) return; // ignore button clicks
   showFullPlayer();
-});
+})
 
 // FULL PLAYER BUTTONS
 playPause.onclick = () => isPlaying ? pauseAudio() : playAudio();
@@ -363,7 +365,7 @@ document.getElementById("nextBtn").onclick = () => { idxPlaying=(idxPlaying+1)%s
 document.getElementById("minBtn").onclick = hideFullPlayer;
 document.getElementById("closeBtn").onclick = () => { pauseAudio(); hideFullPlayer(); }
 
-// SHARE BUTTON
+// SHARE / DOWNLOAD BUTTONS
 document.getElementById("shareBtn").addEventListener("click", async () => {
   const s = songs[idxPlaying];
   if(!s.id){ alert("Song ID missing"); return; }
@@ -372,8 +374,6 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
   if(navigator.share){ await navigator.share({title:s.title,text:"",url:shareURL}); }
   else { navigator.clipboard.writeText(shareURL); alert("Link copied:\n"+shareURL); }
 });
-
-// DOWNLOAD BUTTON
 document.getElementById("downloadBtn").addEventListener("click", async () => {
   const s = songs[idxPlaying];
   const finalName = `soundgyx - ${s.title}.mp3`;
@@ -381,9 +381,7 @@ document.getElementById("downloadBtn").addEventListener("click", async () => {
     const response = await fetch(s.src,{mode:"cors"});
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = finalName;
-    document.body.appendChild(a); a.click(); a.remove();
+    const a = document.createElement("a"); a.href=url; a.download=finalName; document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
   }catch(err){ alert("Download error: "+err); }
 });
@@ -416,8 +414,6 @@ function checkURLSong(){
   }
 }
 checkURLSong();
-  
-
 </script>
 
 </body>
