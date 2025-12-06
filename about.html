@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About SOUNDGYX</title>
+    <link rel="icon" href="logo.png" type="image/png"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        :root{  
+            --bg:#0a0f1e;   
+            --card:#111827;   
+            --accent:#8b5cf6;   
+            --muted:#9ca3af;   
+            --glass: rgba(255,255,255,0.05);  
+        }  
+        body{  
+            margin:0; font-family:Inter; background:var(--bg); color:white; padding-bottom:50px; min-height: 100vh;
+        }  
+        
+        /* HEADER (Simplified for the About page) */  
+        header{  
+            position: sticky; top: 0; z-index: 50;  
+            background: rgba(15,23,36,0.95);  
+            backdrop-filter: blur(6px);  
+            padding: 12px 18px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;  
+            border-bottom: 1px solid rgba(255,255,255,0.05);  
+        }  
+
+        .back-btn {
+            width: 42px; height: 42px;  
+            border-radius: 12px;  
+            background: var(--glass);  
+            display: grid; place-items: center;  
+            cursor: pointer; transition: .2s;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            flex-grow: 1; /* Allows title area to take up remaining space */
+        }
+        .logo-area .logo-img {
+            width: 32px; 
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .title{
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* MAIN CONTENT STYLES */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .about-content {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            line-height: 1.7;
+        }
+
+        /* Typography */
+        .about-content h1 {
+            color: var(--accent);
+            font-size: 28px;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--glass);
+        }
+
+        .about-content h2 {
+            color: white;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .about-content p {
+            color: var(--muted);
+            margin-bottom: 15px;
+        }
+
+        .about-content strong {
+            color: white;
+            font-weight: 700;
+        }
+
+        .about-content ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .about-content ul li {
+            margin-bottom: 10px;
+            color: var(--muted);
+        }
+
+        .about-content ul li::before {
+            content: "•";
+            color: var(--accent);
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+    </style>
+</head>
+<body> 
+<header>  
+    <!-- Back Button to return to index.html -->
+    <a href="index.html" class="back-btn"><i class="fa fa-arrow-left"></i></a>
+    
+    <div class="logo-area">
+        <img src="logo.png" alt="SOUNDGYX Logo" class="logo-img">
+        <div class="title">About Us</div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="about-content">
+        <h1>About SOUNDGYX</h1>
+
+        <p>SOUNDGYX is more than just a music player; it is a bridge between sound and emotion. Our mission is to connect music lovers with their favorite artists and provide a seamless, high-quality listening experience for everyone.</p>
+
+        <h2>Our Journey</h2>
+        <p>SOUNDGYX began with a simple idea: music shouldn't be complicated. In today's digital landscape, we felt that many platforms were creating clutter rather than convenience. We set out to build a platform that is clean in design, easy to use, and fast on every device.</p>
+        <p>Our belief is that every song has a journey, and we want to deliver that journey to your ears without interruption or distraction.</p>
+
+        <h2>Our Vision</h2>
+        <p>We envision a world where finding and listening to great music is as simple as pressing a button. Our vision is to empower artists, giving them a platform where their craft is valued, and to help listeners discover sounds that touch their soul, no matter where in the world they originate.</p>
+
+        <h2>The SOUNDGYX Experience</h2>
+        <p>SOUNDGYX is specifically designed for the mobile-first world, ensuring your listening experience is impeccable across every screen.</p>
+        
+        <ul>
+            <li><strong>Pristine Audio Quality:</strong> We are committed to delivering music exactly as it was recorded—clear, rich, and powerful.</li>
+            <li><strong>Intuitive Interface:</strong> Our app is designed to be fast and simple. You can instantly play tracks, control playback using the mini-bar player, and search for songs with ease.</li>
+            <li><strong>Responsive Design:</strong> Whether you are using a phone, tablet, or desktop, our layout is always adapted and beautifully presented.</li>
+            <li><strong>A Sense of Community:</strong> We share a passion for music and invite you to become part of this family.</li>
+        </ul>
+
+        <h2>Our Commitment</h2>
+        <p>We are constantly working to improve the experience for every user on our platform. Our promise is to always innovate at the intersection of music and technology.</p>
+        <p style="text-align: center; margin-top: 40px; font-style: italic;">Thank you for choosing SOUNDGYX. Now, put on your headphones and let the music begin.</p>
+    </div>
+</div>
+
+</body>  
+</html>
+

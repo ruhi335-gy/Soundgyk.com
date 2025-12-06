@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOUNDGYX Feedback</title>
+    <link rel="icon" href="logo.png" type="image/png"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        :root{  
+            --bg:#0a0f1e;   
+            --card:#111827;   
+            --accent:#8b5cf6;   
+            --muted:#9ca3af;   
+            --glass: rgba(255,255,255,0.05);  
+        }  
+        body{  
+            margin:0; font-family:Inter; background:var(--bg); color:white; padding-bottom:50px; min-height: 100vh;
+        }  
+        
+        /* HEADER */  
+        header{  
+            position: sticky; top: 0; z-index: 50;  
+            background: rgba(15,23,36,0.95);  
+            backdrop-filter: blur(6px);  
+            padding: 12px 18px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;  
+            border-bottom: 1px solid rgba(255,255,255,0.05);  
+        }  
+
+        .back-btn {
+            width: 42px; height: 42px;  
+            border-radius: 12px;  
+            background: var(--glass);  
+            display: grid; place-items: center;  
+            cursor: pointer; transition: .2s;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            flex-grow: 1; 
+        }
+        .logo-area .logo-img {
+            width: 32px; 
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .title{
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* MAIN CONTENT STYLES */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .feedback-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .feedback-card h1 {
+            color: var(--accent);
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .feedback-card p {
+            color: var(--muted);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--glass);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box; 
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #7c3aed; /* Darker accent */
+            transform: translateY(-1px);
+        }
+
+    </style>
+</head>
+<body> 
+<header>  
+    <!-- Back Button to return to index.html -->
+    <a href="index.html" class="back-btn"><i class="fa fa-arrow-left"></i></a>
+    
+    <div class="logo-area">
+        <img src="logo.png" alt="SOUNDGYX Logo" class="logo-img">
+        <div class="title">Feedback</div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="feedback-card">
+        <h1>We Value Your Feedback!</h1>
+        <p>Please fill out this form. Upon submission, it will open your default email application to send the message.</p>
+
+        <!-- The form action uses the mailto: protocol -->
+        <form 
+            action="mailto:gyangupta16368@gmail.com" 
+            method="post" 
+            enctype="text/plain"
+            id="feedbackForm"
+        >
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="Name" required placeholder="e.g., Jane Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="Email" required placeholder="example: your.email@gmail.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="Message" required placeholder="Tell us what you think!"></textarea>
+            </div>
+            
+            <button type="submit">Send Feedback</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        // Construct the body of the email using URL encoding for mailto
+        const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+        const subject = "SOUNDGYX Feedback";
+        
+        // Construct the final mailto link
+        const mailtoLink = `mailto:soundgyx.feedback@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        // Change the form action dynamically just before submission
+        this.action = mailtoLink;
+    });
+
+    // NOTE: Replace 'soundgyx.feedback@example.com' with your actual receiving email address.
+</script>
+
+</body>  
+</html>
+
