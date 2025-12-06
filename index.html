@@ -1,271 +1,341 @@
 <!doctype html>
-<html lang="hi">
 
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Music Studio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<html lang="en">  
+<head>  
+<meta charset="utf-8" />  
+<meta name="viewport" content="width=device-width,initial-scale=1" />  
+<title>SOUNDGYX</title>
+<link rel="icon" href="logo.png" type="image/png"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
 <style>
-:root{
-  --bg:#0d0d0f;          /* Dark modern background */
-  --card:#1a1a2e;        /* Slightly lighter for cards */
-  --accent:#8b5cf6;      /* Modern purple accent */
-  --muted:#b0b0b0;       /* Soft muted text */
-  --glass: rgba(255,255,255,0.05);
-  --shadow: rgba(139,92,246,0.3);
-}
-
-body{
-  margin:0; 
-  font-family:Inter; 
-  background:var(--bg); 
-  color:white; 
-  padding-bottom:100px;
-}
-
-/* HEADER */
-header{
-  position:sticky; top:0; z-index:50;
-  background:rgba(15,15,30,0.95);
-  backdrop-filter:blur(8px);
+:root{  
+  --bg:#0a0f1e;   
+  --card:#111827;   
+  --accent:#8b5cf6;   
+  --muted:#9ca3af;   
+  --glass: rgba(255,255,255,0.05);  
+}  
+body{  
+  margin:0; font-family:Inter; background:var(--bg); color:white; padding-bottom:100px;  
+}  
+  
+/* HEADER */  
+header{  
+  position:sticky; top:0; z-index:50;  
+  background:rgba(15,23,36,0.95);  
+  backdrop-filter:blur(6px);  
   padding:12px 18px; 
   display:flex; 
   align-items:center; 
-  gap:12px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-.hamb{
-  width:44px;height:44px;
-  border-radius:14px;
-  background:var(--glass);
-  display:grid;place-items:center;
-  cursor:pointer; 
-  transition:.2s;
-}
-.hamb:hover{background:var(--accent);}
-.title{font-size:24px;font-weight:700; letter-spacing:1px;}
+  justify-content:space-between; 
+  gap:12px;  
+  border-bottom:1px solid rgba(255,255,255,0.05);  
+}  
 
-/* MENU PANEL */
-.menu-panel{
-  position:absolute;left:16px;top:60px;background:var(--card);
-  padding:12px;border-radius:14px;display:none;flex-direction:column;
-  box-shadow:0 6px 20px rgba(0,0,0,0.5);
-}
-.menu-panel a{
-  color:white;text-decoration:none;padding:10px 14px;border-radius:12px;
-  transition:.2s; font-weight:500;
-}
-.menu-panel a:hover{background:var(--accent); transform:scale(1.05);}
-
-/* MINI PLAYER */
-#headerMiniBar{
-  position:fixed; top:70px; left:50%; transform:translateX(-50%);
-  z-index:60;
-  width:min(400px,95%);
-  height:70px; padding:10px 16px;
-  background:rgba(26,26,46,0.95);
-  backdrop-filter:blur(12px);
-  display:none; align-items:center; gap:12px;
-  border-radius:16px;
-  box-shadow:0 10px 25px var(--shadow);
-  cursor:pointer;
-  transition:.3s;
-}
-#headerMiniBar:hover{background:rgba(139,92,246,0.15);}
-#headerMiniBar img{width:50px;height:50px;border-radius:14px;object-fit:cover}
-#headerMiniBar .mInfo{flex:1; overflow:hidden}
-#headerMiniBar .mInfo div:first-child{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#headerMiniBar .mInfo div:last-child{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#headerMiniBar .mControls{display:flex;gap:8px}
-#headerMiniBar .mControls .iconBtn{
-  width:38px;height:38px;font-size:14px;
-  background:var(--glass); border-radius:12px;
-  display:grid;place-items:center;
-  transition:.2s; color:white;
-}
-#headerMiniBar .mControls .iconBtn:hover{background:var(--accent);}
-
-/* SONG GRID */
-.grid{
-  margin-top:150px;
-  display:grid;
-  grid-template-columns:repeat(2, 1fr); /* 2 songs per row */
-  gap:18px;padding:20px;
-}
-.card{
-  background:var(--card); 
-  padding:12px; 
-  border-radius:18px;
-  cursor:pointer; 
-  transition:.3s; 
-  box-shadow:0 6px 15px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.card:hover{
-  transform:translateY(-6px) scale(1.03); 
-  box-shadow:0 12px 30px var(--shadow);
-  border-color: var(--accent);
-}
-.thumb{
-  width:100%;
-  aspect-ratio:1/1;
-  border-radius:16px;
-  object-fit:cover; 
-  transition: transform .3s;
-}
-.card:hover .thumb{
-  transform:scale(1.05);
+/* Logo and Title area */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
 }
 
-/* PLAYER OVERLAY */
-#playerOverlay{
-  position:fixed;inset:0;z-index:200;display:none;
-  backdrop-filter:blur(14px);
-  background:rgba(0,0,0,0.95);
-  padding:20px; text-align:center;
-  overflow-y:auto;
+/* Logo image */
+.logo-area .logo-img {
+    width: 32px; 
+    height: 32px;
+    border-radius: 6px;
+    object-fit: cover;
 }
-.playerTopBtns{position:absolute;top:12px;right:12px; display:flex;gap:10px;}
-.iconBtn{
-  width:50px;height:50px;border-radius:16px;
-  background:var(--glass); display:grid;place-items:center; cursor:pointer; color:white;
-  transition:.2s; font-size:18px;
-}
-.iconBtn:hover{background:var(--accent);}
-.bigImg{width:min(420px,80%);border-radius:18px;margin-top:50px}
-#playTitle{margin-top:20px;font-weight:700;font-size:24px;letter-spacing:1px;}
-#playArtist{margin-top:5px;font-size:16px;color:var(--muted);}
-.progress{
-  width:min(720px,90%);
-  height:10px;
-  background:#333;
+
+.hamb{  
+  width:42px;height:42px;  
+  border-radius:12px;  
+  background:var(--glass);  
+  display:grid;place-items:center;  
+  cursor:pointer; transition:.2s;  
+}  
+.hamb:hover{background:var(--accent);}  
+.title{font-size:22px;font-weight:700}  
+  
+/* MENU PANEL (FIXED Z-INDEX: 70) */  
+.menu-panel{  
+  position:absolute;
+  right:16px;
+  top:60px;
+  background:var(--card);  
+  padding:10px;
   border-radius:12px;
-  margin:25px auto;
-  overflow:hidden;
+  display:none;
+  flex-direction:column;  
+  box-shadow:0 6px 15px rgba(0,0,0,0.5);  
+  /* Z-Index higher than mini player (60) to show above it */
+  z-index: 70; 
+}  
+.menu-panel a{  
+  color:white;
+  text-decoration:none;
+  padding:10px;
+  border-radius:10px;  
+  transition:.2s;  
 }
-.progress i{height:100%; background:var(--accent); display:block; width:0%; transition:width .1s linear;}
+.menu-panel .copyright {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+.menu-panel a:hover{background:var(--accent);}  
+  
+/* MINI PLAYER */  
+#headerMiniBar{  
+  position:fixed; top:60px; left:50%; transform:translateX(-50%);  
+  z-index:60; /* Menu opens above this */
+  width:min(420px,95%);  
+  height:70px; padding:10px 16px;  
+  background:rgba(17,24,39,0.95);  
+  backdrop-filter:blur(12px);  
+  display:none; align-items:center; gap:12px;  
+  border-radius:16px;  
+  box-shadow:0 8px 20px rgba(0,0,0,0.5);  
+  cursor:pointer;  
+  transition:.3s;  
+}  
+#headerMiniBar:hover{background:rgba(139,92,246,0.15);}  
+#headerMiniBar img{width:50px;height:50px;border-radius:14px;object-fit:cover}  
+#headerMiniBar .mInfo{flex:1; overflow:hidden}  
+#headerMiniBar .mInfo div:first-child{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}  
+#headerMiniBar .mInfo div:last-child{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}  
+#headerMiniBar .mControls{display:flex;gap:8px}  
+#headerMiniBar .mControls .iconBtn{  
+  width:38px;height:38px;font-size:14px;  
+  background:var(--glass); border-radius:12px;  
+  display:grid;place-items:center;  
+  transition:.2s; color:white;  
+}  
+#headerMiniBar .mControls .iconBtn:hover{background:var(--accent);}  
+  
+/* SONG GRID */  
+.grid{  
+  margin-top:0px;  
+  display:grid;  
+  grid-template-columns:repeat(auto-fit,minmax(150px, 1fr));
+  gap:18px;padding:20px;  
+  /* Explicitly set 2 columns on mobile devices for consistency */
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr; 
+  }
+}  
+.card{  
+  background:var(--card); padding:12px; border-radius:16px;  
+  cursor:pointer; transition:.3s; box-shadow:0 6px 15px rgba(0,0,0,0.4);  
+}  
+.card:hover{transform:translateY(-6px) scale(1.03); box-shadow:0 10px 25px rgba(139,92,246,0.4);}  
+.thumb{width:100%;aspect-ratio:1/1;border-radius:14px;object-fit:cover}  
 
-/* FOOTER SEARCH BAR */
-footer{
-  position:fixed; bottom:0; left:0; right:0;
-  background:rgba(15,15,30,0.95); backdrop-filter:blur(8px);
-  padding:12px 20px; display:flex; align-items:center; gap:12px;
-  border-top:1px solid rgba(255,255,255,0.08);
+/* SONG TITLE FONT SIZE */
+.card > div:nth-child(2) {
+  margin-top:8px;
+  font-weight:600;
+  font-size: 14px; 
 }
-.footerSearch{
-  flex:1; display:flex; background:rgba(255,255,255,0.05); border-radius:16px; padding:10px; align-items:center; gap:10px;
+  
+/* PLAYER OVERLAY */  
+#playerOverlay{  
+  position:fixed;
+  inset:0;
+  z-index:200; /* Highest Z-Index for full player */
+  display:none;  
+  backdrop-filter:blur(12px);  
+  background:rgba(0,0,0,0.9);  
+  padding:20px; 
+  text-align:center;  
+  overflow-y:auto;  
+}  
+.playerTopBtns{position:absolute;top:12px;right:12px; display:flex;gap:10px;}  
+.iconBtn{  
+  width:50px;height:50px;border-radius:16px;  
+  background:var(--glass); display:grid;place-items:center; cursor:pointer; color:white;  
+  transition:.2s; font-size:18px;  
+}  
+.iconBtn:hover{background:var(--accent);}  
+.bigImg{width:min(420px,80%);border-radius:16px;margin-top:50px}  
+
+/* Progress Bar Styling for Dragging (Slider) */
+.progress{  
+  width:min(720px,90%);  
+  height:10px;  
+  background:#333;  
+  border-radius:10px;  
+  margin:25px auto;  
+  overflow:visible; 
+  position: relative; 
+  cursor: pointer; 
+}  
+/* Progress Fill */
+.progress i{
+    height:100%; 
+    background:var(--accent); 
+    display:block; 
+    width:0%; 
+    transition:none; 
+    position: relative;
+    border-radius: 10px;
+}  
+/* Progress Knob (the small white circle) */
+.progress i::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
-.footerSearch input{
-  flex:1;
-  background:transparent;
-  border:none;
-  outline:none;
-  color:white;
-  font-size:16px;
-}
-.footerSearch .icon{
-  width:40px;height:40px;
-  background:var(--glass);
-  display:grid;place-items:center;
-  border-radius:12px;
-  color:white;
-  transition:.2s
-}
+
+  
+/* FOOTER SEARCH BAR */  
+footer{  
+  position:fixed; bottom:0; left:0; right:0;  
+  background:rgba(15,23,36,0.95); backdrop-filter:blur(6px);  
+  padding:12px 20px; display:flex; align-items:center; gap:12px;  
+  border-top:1px solid rgba(255,255,255,0.05);  
+}  
+.footerSearch{  
+  flex:1; display:flex; background:rgba(255,255,255,0.05); border-radius:16px; padding:10px; align-items:center; gap:10px;  
+}  
+.footerSearch input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:16px;}  
+.footerSearch .icon{width:40px;height:40px;background:var(--glass);display:grid;place-items:center;border-radius:12px;color:white;transition:.2s}  
 .footerSearch .icon:hover{background:var(--accent);}
+
+/* APP FOOTER TEXT */
+.app-footer-text {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 12px;
+}
 </style>
 
-</head>
 
-<body>
-<header>
-  <div id="hamb" class="hamb"><i class="fa fa-bars"></i></div>
-  <div class="title">Music Studio</div>
-  <div id="menu" class="menu-panel">
-    <a href="about.html">About</a>
-    <a href="feedback.html">Feedback</a>
-    <a href="social.html">Social</a>
+</head>
+<body> 
+<header>  
+  <div class="logo-area">
+    <img src="logo.png" alt="SOUNDGYX Logo" class="logo-img">
+    <div class="title">SOUNDGYX</div>
   </div>
+  
+  <div id="hamb" class="hamb"><i class="fa fa-bars"></i></div>  
+  
+  <div id="menu" class="menu-panel">  
+  <a href="about.html"><i class="fa fa-info-circle"></i> About</a>  
+  <a href="feedback.html"><i class="fa fa-envelope"></i> Feedback</a>  
+  <a href="social.html"><i class="fa fa-users"></i> Social</a>  
+  
+  <div class="copyright">
+    &copy; 2025 SOUNDGYX. All Rights Reserved.
+  </div>
+</div>
+
 </header>
 
-<!-- MINI PLAYER -->
-<div id="headerMiniBar">
-  <img id="hmImg">
-  <div class="mInfo">
-    <div id="hmTitle"></div>
-    <div id="hmArtist"></div>
-  </div>
-  <div class="mControls">
-    <div id="hmPrev" class="iconBtn"><i class="fa fa-backward"></i></div>
-    <div id="hmPlay" class="iconBtn"><i class="fa fa-play"></i></div>
-    <div id="hmNext" class="iconBtn"><i class="fa fa-forward"></i></div>
-    <div id="hmClose" class="iconBtn"><i class="fa fa-xmark"></i></div>
-  </div>
+<div id="headerMiniBar">  
+  <img id="hmImg" alt="Mini player album art">  
+  <div class="mInfo">  
+    <div id="hmTitle"></div>  
+    <div id="hmArtist"></div>  
+  </div>  
+  <div class="mControls">  
+    <div id="hmPrev" class="iconBtn"><i class="fa fa-backward"></i></div>  
+    <div id="hmPlay" class="iconBtn"><i class="fa fa-play"></i></div>  
+    <div id="hmNext" class="iconBtn"><i class="fa fa-forward"></i></div> 
+    <div id="hmClose" class="iconBtn"><i class="fa fa-xmark"></i></div>  
+  </div>  
 </div>
 
-<!-- SONG GRID -->
-<section class="grid" id="songsGrid"></section>
+<section class="grid" id="songsGrid"></section>  
 
-<!-- PLAYER OVERLAY -->
-<div id="playerOverlay">
-
-  <div class="playerTopBtns">
-    <div id="minBtn" class="iconBtn"><i class="fa fa-window-minimize"></i></div>
-    <div id="closeBtn" class="iconBtn"><i class="fa fa-xmark"></i></div>
+<div class="app-footer-text">
+    &copy; 2025 SOUNDGYX. Music is the language of the spirit. All rights reserved.
+</div>
+<div id="playerOverlay">  
+  <div class="playerTopBtns">  
+    <div id="minBtn" class="iconBtn"><i class="fa fa-window-minimize"></i></div>  
+    <div id="closeBtn" class="iconBtn"><i class="fa fa-xmark"></i></div>  
+  </div>  
+  <img id="playImg" class="bigImg" alt="Now playing album art">  
+  <h2 id="playTitle"></h2>  
+  <div style="color:var(--muted)" id="playArtist"></div>  
+  
+  <div style="width:min(720px,90%); margin:0 auto; display:flex; justify-content:space-between; color:var(--muted); font-size:14px; margin-bottom: 5px;">
+    <span id="currentTimeDisplay">0:00</span>
+    <span id="durationDisplay">0:00</span>
   </div>
-
-  <img id="playImg" class="bigImg">
-  <h2 id="playTitle"></h2>
-  <div style="color:var(--muted)" id="playArtist"></div>
-
-  <div class="progress"><i id="progFill"></i></div>
-
-  <div style="display:flex;justify-content:center;gap:12px;margin-top:20px; flex-wrap:wrap;">
-    <div id="prevBtn" class="iconBtn"><i class="fa fa-backward"></i></div>
-    <div id="playPause" class="iconBtn"><i class="fa fa-play"></i></div>
-    <div id="nextBtn" class="iconBtn"><i class="fa fa-forward"></i></div>
-    <div id="shareBtn" class="iconBtn"><i class="fa fa-share-alt"></i></div>
-    <div id="downloadBtn" class="iconBtn"><i class="fa fa-download"></i></div>
-  </div>
-
-  <audio id="audio"></audio>
+  
+  <div class="progress"><i id="progFill"></i></div>  
+  <div style="display:flex;justify-content:center;gap:12px;margin-top:20px; flex-wrap:wrap;">  
+    <div id="prevBtn" class="iconBtn"><i class="fa fa-backward"></i></div>  
+    <div id="playPause" class="iconBtn"><i class="fa fa-play"></i></div>  
+    <div id="nextBtn" class="iconBtn"><i class="fa fa-forward"></i></div>  
+    <div id="shareBtn" class="iconBtn"><i class="fa fa-share-alt"></i></div>  
+    <div id="downloadBtn" class="iconBtn"><i class="fa fa-download"></i></div>  
+  </div>  
+  <audio id="audio"></audio>  
 </div>
 
-<!-- FOOTER SEARCH -->
-<footer>
-  <div class="footerSearch">
-    <div class="icon"><i class="fa fa-magnifying-glass"></i></div>
-    <input id="searchInput" placeholder="Search songs, artists...">
-    <div id="clearSearch" class="icon"><i class="fa fa-xmark"></i></div>
-  </div>
-</footer>
+<footer>  
+  <div class="footerSearch">  
+    <div class="icon"><i class="fa fa-magnifying-glass"></i></div>  
+    <input id="searchInput" placeholder="Search songs, artists...">  
+    <div id="clearSearch" class="icon"><i class="fa fa-xmark"></i></div>  
+  </div>  
+</footer> 
 
 <script src="song.js"></script>
 
 <script>
-
-  
+  // =========================
 // SONG GRID RENDER
+// =========================
 const grid = document.getElementById("songsGrid");
+
+/** Renders the list of songs to the grid, handling filtered lists. */
 function renderSongs(list){
   grid.innerHTML = "";
-  list.forEach((s,i)=>{
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+
+  list.forEach((s)=>{
     const c = document.createElement("div");
     c.className = "card";
     c.innerHTML = `
-      <img class='thumb' src='${s.img}'>
+      <img class='thumb' src='${s.img}' alt="${s.title} album art">
       <div style="margin-top:8px;font-weight:600">${s.title}</div>
       <div style="color:var(--muted);font-size:13px">${s.artist}</div>`;
-    c.onclick = () => playSongFromGrid(i); // click → auto play
-    grid.appendChild(c);
+    
+    // Find the original index from the global 'songs' array for consistent playback
+    const originalIndex = songs.findIndex(globalSong => globalSong.id === s.id); 
+    
+    if (originalIndex !== -1) {
+        c.onclick = () => clickSongFromGrid(originalIndex);
+        grid.appendChild(c);
+    }
   });
 }
-renderSongs(songs);
 
+// Initial render check
+if (typeof songs !== 'undefined' && songs.length > 0) {
+  renderSongs(songs);
+}
+
+
+// =========================
 // PLAYER VARIABLES
+// =========================
 const overlay = document.getElementById("playerOverlay");
 const audio = document.getElementById("audio");
 const playImg = document.getElementById("playImg");
@@ -273,147 +343,472 @@ const playTitle = document.getElementById("playTitle");
 const playArtist = document.getElementById("playArtist");
 const playPause = document.getElementById("playPause");
 const progFill = document.getElementById("progFill");
-let idxPlaying = 0, isPlaying = false;
 const mini = document.getElementById("headerMiniBar");
 
-// AUDIO FUNCTIONS
+// Progress and Time Elements
+const progressBar = document.querySelector(".progress"); 
+const currentTimeDisplay = document.getElementById("currentTimeDisplay");
+const durationDisplay = document.getElementById("durationDisplay");
+
+
+let idxPlaying = 0;
+let isPlaying = false;
+let isDragging = false; 
+
+// =========================
+// HELPER FUNCTIONS
+// =========================
+
+/** Converts seconds to M:SS format. */
+function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return "0:00";
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+}
+
+
+/** Sets UI and plays audio. Only called internally or when audio should definitely start. */
 function playAudio(){
-  audio.play();
+  if (!audio.src) return; 
+  audio.play(); 
   isPlaying = true;
   playPause.innerHTML = '<i class="fa fa-pause"></i>';
   document.getElementById("hmPlay").innerHTML = '<i class="fa fa-pause"></i>';
 }
+
+/** Pauses audio and updates UI. */
 function pauseAudio(){
-  audio.pause();
+  audio.pause(); 
   isPlaying = false;
   playPause.innerHTML = '<i class="fa fa-play"></i>';
   document.getElementById("hmPlay").innerHTML = '<i class="fa fa-play"></i>';
 }
 
-audio.ontimeupdate = () => {
-  if(audio.duration){
-    progFill.style.width = ((audio.currentTime/audio.duration)*100)+"%";
-  }
-}
-
-// MINI PLAYER FUNCTIONS
+/** Updates the Mini Player's UI based on current song. */
 function showMini(){
+  if (typeof songs === 'undefined' || songs.length === 0) return;
   const s = songs[idxPlaying];
   document.getElementById("hmImg").src = s.img;
   document.getElementById("hmTitle").textContent = s.title;
   document.getElementById("hmArtist").textContent = s.artist;
-  mini.classList.add("show");
-}
-function hideMini(){
-  mini.classList.remove("show");
+  mini.style.display = "flex";
 }
 
-// FULL PLAYER FUNCTIONS (AUTOPLAY ON OPEN)
-function showFullPlayer(){
-  const s = songs[idxPlaying];
-  overlay.style.display = "block";
-  setTimeout(()=> overlay.classList.add("show"),50);
+function hideMini(){ mini.style.display = "none"; }
+
+/** Updates the Full Player's UI based on current song. */
+function updatePlayerUI(idx) {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  const s = songs[idx];
   playImg.src = s.img;
   playTitle.textContent = s.title;
   playArtist.textContent = s.artist;
+  // Reset time displays when a new song loads
+  currentTimeDisplay.textContent = "0:00";
+  durationDisplay.textContent = "0:00";
+}
+
+/** * Changes the song index, loads the source, updates UI, and ensures playback 
+ * without forcing the full player overlay to open. Used by Mini Bar navigation.
+ */
+function changeSong(idx) {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  idxPlaying = idx;
+  const s = songs[idx];
+  
+  updatePlayerUI(idx); // Update Full UI
+  showMini(); // Update Mini UI
+  
   audio.src = s.src;
-  audio.currentTime = 0;
-  audio.play();
-  isPlaying = true;
-  playPause.innerHTML = '<i class="fa fa-pause"></i>';
-  document.getElementById("hmPlay").innerHTML = '<i class="fa fa-pause"></i>';
-  showMini();
-}
-function hideFullPlayer(){
-  overlay.classList.remove("show");
-  setTimeout(()=> overlay.style.display="none",300);
-}
-
-// SONG SELECT FROM GRID → AUTO PLAY
-function playSongFromGrid(i){
-  idxPlaying = i;
-  showFullPlayer();
-}
-
-// MINI PLAYER SONG UPDATE WITHOUT UNMINIMIZE
-function showSongInfoMini(i){
-  const s = songs[i];
-  idxPlaying = i;
-  document.getElementById("hmImg").src = s.img;
-  document.getElementById("hmTitle").textContent = s.title;
-  document.getElementById("hmArtist").textContent = s.artist;
-  audio.src = s.src;
-  if(isPlaying) audio.play(); else audio.pause();
-}
-
-// MINI PLAYER BUTTONS
-document.getElementById("hmPlay").onclick = e => { e.stopPropagation(); isPlaying ? pauseAudio() : playAudio(); }
-document.getElementById("hmPrev").onclick = e => { e.stopPropagation(); idxPlaying=(idxPlaying-1+songs.length)%songs.length; showSongInfoMini(idxPlaying); }
-document.getElementById("hmNext").onclick = e => { e.stopPropagation(); idxPlaying=(idxPlaying+1)%songs.length; showSongInfoMini(idxPlaying); }
-document.getElementById("hmClose").onclick = e => { e.stopPropagation(); pauseAudio(); hideMini(); }
-
-// MINI PLAYER CLICK (ONLY IMAGE/TITLE/ARTIST → OPEN FULL)
-mini.addEventListener("click", e => {
-  if(e.target.closest(".iconBtn")) return; // ignore button clicks
-  showFullPlayer();
-})
-
-// FULL PLAYER BUTTONS
-playPause.onclick = () => isPlaying ? pauseAudio() : playAudio();
-document.getElementById("prevBtn").onclick = () => { idxPlaying=(idxPlaying-1+songs.length)%songs.length; showFullPlayer(); }
-document.getElementById("nextBtn").onclick = () => { idxPlaying=(idxPlaying+1)%songs.length; showFullPlayer(); }
-document.getElementById("minBtn").onclick = hideFullPlayer;
-document.getElementById("closeBtn").onclick = () => { pauseAudio(); hideFullPlayer(); }
-
-// SHARE / DOWNLOAD BUTTONS
-document.getElementById("shareBtn").addEventListener("click", async () => {
-  const s = songs[idxPlaying];
-  if(!s.id){ alert("Song ID missing"); return; }
-  const encodedTitle = encodeURIComponent(s.title);
-  const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}&title=${encodedTitle}`;
-  if(navigator.share){ await navigator.share({title:s.title,text:"",url:shareURL}); }
-  else { navigator.clipboard.writeText(shareURL); alert("Link copied:\n"+shareURL); }
-});
-document.getElementById("downloadBtn").addEventListener("click", async () => {
-  const s = songs[idxPlaying];
-  const finalName = `soundgyx - ${s.title}.mp3`;
-  try{
-    const response = await fetch(s.src,{mode:"cors"});
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href=url; a.download=finalName; document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  }catch(err){ alert("Download error: "+err); }
-});
-
-// SEARCH SYSTEM
-document.getElementById("searchInput").oninput = e => {
-  const q = e.target.value.toLowerCase();
-  renderSongs(songs.filter(s => (s.title+" "+s.artist).toLowerCase().includes(q)));
-}
-document.getElementById("clearSearch").onclick = () => {
-  document.getElementById("searchInput").value="";
-  renderSongs(songs);
-}
-
-// MENU
-const hamb=document.getElementById("hamb"); const menu=document.getElementById("menu"); let menuTimeout;
-hamb.onclick=e=>{e.stopPropagation(); if(menu.style.display==="flex") closeMenu(); else{menu.style.display="flex"; clearTimeout(menuTimeout); menuTimeout=setTimeout(closeMenu,5000);}}
-function closeMenu(){menu.style.display="none"; clearTimeout(menuTimeout);}
-document.addEventListener("click", e=>{if(menu.style.display==="flex" && !menu.contains(e.target) && e.target!==hamb) closeMenu();})
-
-// URL SONG SHOW
-function checkURLSong(){
-  const params = new URLSearchParams(window.location.search);
-  const songId = params.get("song");
-  if(!songId) return;
-  const findSong = songs.find(x=>x.id==songId);
-  if(findSong){
-    idxPlaying = songs.indexOf(findSong);
-    showFullPlayer();
+  
+  // Only play if the player was active (Maintains state during skip)
+  if (isPlaying) { 
+      playAudio();
+  } else {
+      audio.load();
+      pauseAudio(); 
   }
 }
-checkURLSong();
+
+/** * Fully initiates song playback: changes song, opens FULL OVERLAY, and starts playing. 
+ * Used primarily by Grid clicks and URL deep linking.
+ */
+function openPlayer(idx){
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  idxPlaying = idx;
+  const s = songs[idx];
+  updatePlayerUI(idx); // Update Full UI
+  audio.src = s.src;
+  overlay.style.display = "block"; 
+  playAudio();
+  showMini(); // Ensure mini player is set up too
+}
+
+
+// =========================
+// SONG GRID CLICK 
+// =========================
+function clickSongFromGrid(i){
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  
+  // Case 1: User clicks a DIFFERENT song.
+  if(i !== idxPlaying){
+      openPlayer(i); 
+      return;
+  } 
+  
+  // Case 2: User clicks the SAME song.
+  
+  // If the overlay is already visible, do nothing.
+  if(overlay.style.display === "block") {
+      return;
+  }
+  
+  // If the overlay is NOT visible (i.e., player is minimized), open the overlay 
+  // without reloading audio.src to preserve current playback time.
+  overlay.style.display = "block";
+  if (!isPlaying) {
+      playAudio();
+  }
+}
+
+// =========================
+// MINI PLAYER CLICK 
+// =========================
+// Unminimize when clicking the info area
+document.getElementById("hmImg").onclick = () => {
+  overlay.style.display = "block";
+};
+document.getElementById("hmTitle").onclick = document.getElementById("hmImg").onclick;
+document.getElementById("hmArtist").onclick = document.getElementById("hmImg").onclick;
+mini.onclick = (e) => {
+    // Only unminimize if clicking the info area, not the controls
+    if (!e.target.closest('.mControls')) {
+        document.getElementById("hmImg").onclick();
+    }
+}
+
+// MINI PLAY/PAUSE
+document.getElementById("hmPlay").onclick = (e) => { 
+    e.stopPropagation(); // Stop click from bubbling to mini bar unminimize
+    isPlaying ? pauseAudio() : playAudio();
+}
+
+// MINI CLOSE
+document.getElementById("hmClose").onclick = (e) => {
+    e.stopPropagation(); 
+    pauseAudio();
+    hideMini();
+    audio.currentTime = 0; 
+};
+
+// MINI NEXT/PREV - Uses changeSong to stay minimized
+document.getElementById("hmNext").onclick = (e) => {
+    e.stopPropagation();
+    if (typeof songs === 'undefined' || songs.length === 0) return;
+    const nextIdx = (idxPlaying + 1) % songs.length;
+    changeSong(nextIdx); 
+};
+document.getElementById("hmPrev").onclick = (e) => {
+    e.stopPropagation();
+    if (typeof songs === 'undefined' || songs.length === 0) return;
+    const prevIdx = (idxPlaying - 1 + songs.length) % songs.length;
+    changeSong(prevIdx);
+};
+
+// =========================
+// PLAYER OVERLAY BUTTONS
+// =========================
+document.getElementById("playPause").onclick = () => isPlaying ? pauseAudio() : playAudio();
+
+// CLOSE BUTTON (X) pauses music, hides both players, AND resets time
+document.getElementById("closeBtn").onclick = () => {
+  pauseAudio();
+  overlay.style.display = "none";
+  hideMini();
+  audio.currentTime = 0; 
+};
+
+// MINIMIZE BUTTON hides the full player and shows the mini player
+document.getElementById("minBtn").onclick = () => {
+  overlay.style.display="none";
+  showMini();
+};
+document.getElementById("prevBtn").onclick = () => {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  idxPlaying = (idxPlaying-1+songs.length)%songs.length;
+  openPlayer(idxPlaying); 
+};
+document.getElementById("nextBtn").onclick = () => {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  idxPlaying = (idxPlaying+1)%songs.length;
+  openPlayer(idxPlaying); 
+};
+
+// =========================
+// SHARE BUTTONS 
+// =========================
+document.getElementById("shareBtn").addEventListener("click", async () => {
+  if (typeof songs === 'undefined' || songs.length === 0) { alert("Song list is empty."); return; }
+  const s = songs[idxPlaying];
+  if(!s.id){ alert("Song ID missing"); return; }
+  
+  const encodedTitle = encodeURIComponent(s.title);
+  const shareURL = `${window.location.origin}${window.location.pathname}?song=${s.id}&title=${encodedTitle}`;
+  
+  try {
+    if(navigator.share){ 
+      await navigator.share({
+          title: s.title, 
+          text: "", 
+          url: shareURL
+      }); 
+    }
+    else { 
+      await navigator.clipboard.writeText(shareURL);
+      alert("Link copied:\n"+shareURL); 
+    }
+  } catch(err) {
+    if (err.name !== 'AbortError') { 
+        console.error("Share failed:", err);
+    }
+  }
+});
+
+// =========================
+// DOWNLOAD BUTTON 
+// =========================
+document.getElementById("downloadBtn").onclick = async () => {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  const s = songs[idxPlaying];
+  if (!s.src || !s.src.endsWith('.mp3')) {
+    console.error("Invalid song source for download.");
+    return;
+  }
+  
+  const safeTitle = s.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  const finalName = `soundgyx_${safeTitle}.mp3`;
+  
+  try{
+    const response = await fetch(s.src); 
+    if(!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; 
+    a.download = finalName;
+    document.body.appendChild(a); 
+    a.click(); 
+    document.body.removeChild(a); 
+    URL.revokeObjectURL(url);
+  }catch(err){ 
+    console.error("Download error:", err);
+    alert("Download failed. The file may not be available.");
+  }
+};
+
+// =========================
+// AUDIO PROGRESS & AUTO NEXT 
+// =========================
+
+audio.onloadedmetadata = () => {
+    durationDisplay.textContent = formatTime(audio.duration);
+};
+
+audio.ontimeupdate = () => {
+    // Only update the UI if the user is not actively dragging the knob
+    if (!isDragging) {
+        if(audio.duration) {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progFill.style.width = progressPercent + "%";
+            currentTimeDisplay.textContent = formatTime(audio.currentTime);
+        }
+    }
+};
+
+audio.onended = () => {
+  if (typeof songs === 'undefined' || songs.length === 0) return;
+  const nextIdx = (idxPlaying + 1) % songs.length;
+
+  if (overlay.style.display === "block") {
+      openPlayer(nextIdx);
+  } else {
+      changeSong(nextIdx); 
+  }
+};
+
+// =========================
+// PROGRESS BAR SLIDING/DRAGGING LOGIC (Corrected)
+// =========================
+
+// Function to calculate new time based on mouse/touch position
+function seekTo(e) {
+    if (!audio.duration || !audio.src) return 0; 
+
+    const rect = progressBar.getBoundingClientRect();
+    let clientX;
+
+    // --- UPDATED LOGIC TO HANDLE MOUSE AND ALL TOUCH EVENTS ---
+    if (e.touches && e.touches.length > 0) {
+        // For touchstart and touchmove (when finger is down)
+        clientX = e.touches[0].clientX;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+        // For touchend (when finger is lifted, giving the final position)
+        clientX = e.changedTouches[0].clientX;
+    } else {
+        // For mousedown, mousemove, mouseup
+        clientX = e.clientX;
+    }
+    // --------------------------------------------------------
+
+    let clickX = clientX - rect.left;
+    
+    // Clamp the position within the bounds
+    if (clickX < 0) clickX = 0;
+    if (clickX > rect.width) clickX = rect.width;
+
+    const percent = clickX / rect.width;
+    const newTime = audio.duration * percent;
+    
+    // Update the progress bar visually
+    progFill.style.width = (percent * 100) + "%";
+    currentTimeDisplay.textContent = formatTime(newTime);
+    
+    return newTime;
+}
+
+// Global variable to store if the audio was playing before drag started
+let wasPlayingBeforeDrag = false;
+
+// 1. Start Seeking (Mousedown/Touchstart)
+function startSeeking(e) {
+    if (e.type.startsWith('touch')) e.preventDefault(); 
+    if (!audio.duration || !audio.src) return;
+    
+    isDragging = true;
+    wasPlayingBeforeDrag = !audio.paused; 
+    audio.pause(); 
+    
+    // Perform the initial seek (important for simple clicks too)
+    audio.currentTime = seekTo(e);
+}
+
+// 2. While Seeking (Mousemove/Touchmove)
+function whileSeeking(e) {
+    if (!isDragging) return;
+    if (e.type.startsWith('touch')) e.preventDefault();
+    
+    seekTo(e); // Just update the visuals
+}
+
+// 3. End Seeking (Mouseup/Touchend)
+function endSeeking(e) {
+    if (!isDragging) return;
+    
+    // Final seek to the dragged position
+    const finalTime = seekTo(e);
+    audio.currentTime = finalTime;
+    
+    isDragging = false;
+    
+    // Resume playback only if it was playing before drag started
+    if (wasPlayingBeforeDrag) { 
+        audio.play();
+    }
+}
+
+// --- Attach Events for Mouse (Click and Drag) ---
+progressBar.addEventListener('mousedown', startSeeking);
+document.addEventListener('mousemove', whileSeeking);
+document.addEventListener('mouseup', endSeeking);
+
+// --- Attach Events for Touch (Mobile Sliding) ---
+progressBar.addEventListener('touchstart', startSeeking);
+document.addEventListener('touchmove', whileSeeking);
+document.addEventListener('touchend', endSeeking);
+
+// ... rest of the code ...
+
+// =========================
+// HAMBURGER MENU 
+// =========================
+const hamb = document.getElementById("hamb");
+const menu = document.getElementById("menu");
+
+let autoCloseTimer = null; 
+
+function openMenu(){
+  menu.style.display = "flex"; 
+  if (autoCloseTimer) clearTimeout(autoCloseTimer);
+  autoCloseTimer = setTimeout(closeMenu, 3000); 
+}
+
+function closeMenu(){ 
+  menu.style.display = "none"; 
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer);
+    autoCloseTimer = null;
+  }
+}
+
+hamb.onclick = e => {
+  e.stopPropagation();
+  if(menu.style.display === 'flex') {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+};
+
+// 1. Click anywhere else par menu close
+document.addEventListener("click", e => {
+  if(menu.style.display === 'flex' && !menu.contains(e.target) && e.target !== hamb) {
+    closeMenu();
+  }
+});
+
+// 2. Scroll event par menu close
+document.addEventListener("scroll", () => {
+  if(menu.style.display === 'flex') {
+    closeMenu();
+  }
+});
+
+// 3. Pause auto-close timer when mouse hovers over the menu
+menu.addEventListener("mouseover", () => {
+    if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+        autoCloseTimer = null;
+    }
+});
+
+// 4. Restart auto-close timer when mouse leaves the menu area
+menu.addEventListener("mouseleave", () => {
+    if (menu.style.display === 'flex') {
+        openMenu();
+    }
+});
+
+
+// Initial state for menu
+closeMenu();
+
+
+// =========================
+// SEARCH 
+// =========================
+document.getElementById("searchInput").oninput = e => {
+  const q = e.target.value.toLowerCase();
+  if (typeof songs !== 'undefined') {
+    const filteredSongs = songs.filter(s => 
+      s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q)
+    );
+    renderSongs(filteredSongs);
+  }
+};
+
+document.ge
 </script>
 
 </body>
